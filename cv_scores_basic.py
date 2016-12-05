@@ -58,6 +58,7 @@ print(dfMeanScore)
 
 # mean scores for each fold
 cvMeanScore = df.groupby(['Formula', 'Fold'])['ScoreWRTLoadedClasses'].mean()
+print(cvMeanScore)
 
 # TODO - average and std dev over the folds.
 
