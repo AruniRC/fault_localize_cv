@@ -7,16 +7,22 @@ import matplotlib.patches as patches
 #Set style
 sns.set_style("whitegrid")
 palette_col = sns.color_palette("Set2", 10)
-print palette_col.as_hex()
 
 #read data
+"""
 data = sns.load_dataset("tips")
-#data = pd.read_csv("../data/exam_score_vs_method.csv")
-print data
-x_col='day'#"Method"
-y_col='total_bill'#"Exam_Score"
-hue_col = "smoker"#"isReal"
-hue_order_col = ["Yes","No"]#["Real","Artificial"]
+data = data[['total_bill','smoker','day']]
+data['Bug_Type'] = ""
+data['Bug_Type'][data.smoker=="Yes"] = "Real"
+data['Bug_Type'][data.smoker=="No"] = "Artificial"
+data.columns = ["Exam_Score","isReal","Method", "Bug_Type"]
+"""
+data = pd.read_csv("../results/exam_score_vs_method.csv")
+
+x_col="Method"
+y_col="Exam_Score"
+hue_col = "Bug_Type"
+hue_order_col = ["Real","Artificial"]
 
 #Plot
 ax = sns.boxplot(x=x_col, y=y_col, data=data, hue=hue_col, whis=np.inf, palette=palette_col, hue_order=hue_order_col )
@@ -45,5 +51,5 @@ ax.text(0.6+len(np.unique(data[x_col]))/2, (np.max(data[y_col]) - np.min(data[y_
         verticalalignment='top',
         fontsize=12)
 
-plt.show()
-#plt.savefig("../visualizations/boxplot_real_artificial.pdf")
+#plt.show()
+plt.savefig("../visualizations/boxplot_real_artificial.pdf")
