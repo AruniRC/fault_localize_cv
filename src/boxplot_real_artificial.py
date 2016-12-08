@@ -9,16 +9,9 @@ sns.set_style("whitegrid")
 palette_col = sns.color_palette("Set2", 10)
 
 #read data
-"""
-data = sns.load_dataset("tips")
-data = data[['total_bill','smoker','day']]
-data['Bug_Type'] = ""
-data['Bug_Type'][data.smoker=="Yes"] = "Real"
-data['Bug_Type'][data.smoker=="No"] = "Artificial"
-data.columns = ["Exam_Score","isReal","Method", "Bug_Type"]
-"""
 data = pd.read_csv("../results/exam_score_vs_method.csv")
 
+#settings
 x_col="Method"
 y_col="Exam_Score"
 hue_col = "Bug_Type"
