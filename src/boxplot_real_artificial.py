@@ -22,6 +22,7 @@ data[hue_col] = ""
 data[hue_col][data['isReal']==1] = hue_order_col[0]
 data[hue_col][data['isReal']==0] = hue_order_col[1]
 data = data[[x_col,y_col,hue_col]]
+data.to_csv("../results/scores_artificial_vs_real.csv", index=None)
 
 #Plot
 ax = sns.violinplot(x=x_col, y=y_col, data=data, hue=hue_col, whis=np.inf, palette=palette_col, hue_order=hue_order_col )
