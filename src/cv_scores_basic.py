@@ -11,12 +11,14 @@ import random
 '''
 
 
-FILENAME = '../data/scores_artificial_vs_real.csv' # Path to fault_localization_data/.../
+
+
+FILENAME = '../data/scores_artificial_vs_real_with_indicator.csv' # Path to fault_localization_data/.../
 N_FOLDS = 5
 
 # read in the CSV file as a Pandas DataFrame
 df = pd.read_csv(FILENAME)
-df.head()  # debug: check if the values look ok
+print(df.head())  # debug: check if the values look ok
 
 # Handle non-unique Family values:
 # 	The column "Formula" has the value "ochiai" repeated for the same Bug,
@@ -24,43 +26,26 @@ df.head()  # debug: check if the values look ok
 #	Hack: for rows "Family=sbfl","Formula=ochiai", rename "Formula=ochiai_s"
 df.loc[(df.Formula == 'ochiai') & (df.Family == 'sbfl'), 'Formula'] \
 	= 'ochiai_s'
+df.loc[(df.Formula == 'ochiai') & (df.Family == 'mbfl'), 'Formula'] \
+	= 'ochiai_m'
 
-# get unique elems in "Formula" column
-formulaSet = list(set(df['Formula'].tolist()))
 
 # create Cross-Validation folds as an extra column in the DataFrame
-#	Within each Technique or Formula, get K splits of the bugs (rows)
+# projectSet = list(set(df['Project'].tolist()))
+projectSet = df.Project.unique()
 df['Fold'] = np.nan
-for fs in formulaSet:
-	idx = (df['Formula'] == fs).tolist()
+for fs in projectSet:
+	# select all other projects - Leave One Project Out
+	print(fs)
+	# idx = (df['Project'] != fs).tolist() 
+	# print(len(idx))
+	df.loc[ (~(df['Project'] == fs)) , 'Fold'] = fs # DOESN'TT WORK!!!!!
 
-	# generate the K folds
-	nData = len(idx)
-	numRep = np.ceil(nData/N_FOLDS) + 1
-	kFoldSet = range(1,N_FOLDS+1)
-	kFolds = np.repeat(kFoldSet, numRep)
-	if len(kFolds) > nData:
-		kFolds = kFolds[0:nData]  # clip unequal lengths
+import pdb
+pdb.set_trace()
 
-	# random permutation on the fold values	
-	random.seed(24)	
-	random.shuffle(kFolds)
-
-	# assign the fold values to all row with "Formula=fs"
-	df.loc[idx, 'Fold'] = kFolds
-
-# import pdb
-# pdb.set_trace()
-
-# get mean scores (ScoreWRTLoadedClasses) grouped by "Formula"
-dfMeanScore = df.groupby('Formula')['ScoreWRTLoadedClasses'].mean()
-print(dfMeanScore)
-
-# mean scores for each fold
-cvMeanScore = df.groupby(['Formula', 'Fold'])['ScoreWRTLoadedClasses'].mean()
-print(cvMeanScore)
-
-# TODO - average and std dev over the folds.
+# mean scores for each project
+cvMeanScore = df.groupby(['Fold', 'isReal', 'Formula'])['ScoreWRTLoadedClasses'].describe()
 
 
 
