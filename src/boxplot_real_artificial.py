@@ -8,17 +8,23 @@ import matplotlib.patches as patches
 sns.set_style("whitegrid")
 palette_col = sns.color_palette("Set2", 10)
 
-#read data
-data = pd.read_csv("../results/exam_score_vs_method.csv")
-
 #settings
 x_col="Method"
 y_col="Exam_Score"
-hue_col = "Bug_Type"
+hue_col = "Bug Type"
 hue_order_col = ["Real","Artificial"]
 
+#read data
+data = pd.read_csv("../data/scores_artificial_vs_real_with_indicator.csv")
+data[x_col] = data['Family'] + " " + data['Formula']
+data[y_col] = data['ScoreWRTLoadedClasses']
+data[hue_col] = ""
+data[hue_col][data['isReal']==1] = hue_order_col[0]
+data[hue_col][data['isReal']==0] = hue_order_col[1]
+data = data[[x_col,y_col,hue_col]]
+
 #Plot
-ax = sns.boxplot(x=x_col, y=y_col, data=data, hue=hue_col, whis=np.inf, palette=palette_col, hue_order=hue_order_col )
+ax = sns.violinplot(x=x_col, y=y_col, data=data, hue=hue_col, whis=np.inf, palette=palette_col, hue_order=hue_order_col )
 ax = sns.stripplot(x=x_col, y=y_col, data=data,jitter=True, hue=hue_col,palette=palette_col, split=True, hue_order=hue_order_col )
 ax.legend().set_visible(False)
 ax.add_patch( patches.Rectangle(
