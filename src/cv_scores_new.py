@@ -8,7 +8,7 @@ def run_cv():
     df['Family (Formula)'] = df['Family'] + "(" + df['Formula'] + ")"
     method_formula_pairs = np.unique(df['Family (Formula)'])
     fw = open("../results/cvnew.csv","w+")
-    fw.write("Without_Project;Family (Formula);t_test;cohens_d\n")
+    fw.write("Without_Project;Family (Formula);t_test_statistic;t_test_p_value;cohens_d\n")
     for project in projects:
         df_proj = df[df['Project'] != project]
         df_proj_real = df_proj[df_proj['isReal'] == 1]
@@ -19,8 +19,10 @@ def run_cv():
             samples_real = list(df_proj_real_type['ScoreWRTLoadedClasses'])
             samples_artificial = list(df_proj_artificial_type['ScoreWRTLoadedClasses'])
             t_test = statistics_module.statistical_significance_ttest(samples_real,samples_artificial)
+            t_test_statistic = t_test[0]
+            t_test_p_value = t_test[1]
             cohens_d = statistics_module.effect_size_cohensD(samples_real,samples_artificial)
-            fw.write(project+";"+method_formula_pair+";"+str(t_test)+";"+str(cohens_d)+"\n")
+            fw.write(project+";"+method_formula_pair+";"+str(t_test_statistic)+";"+str(t_test_p_value)+";"+str(cohens_d)+"\n")
     fw.close()
 
 def run_cv_ind():
@@ -29,7 +31,7 @@ def run_cv_ind():
     df['Family (Formula)'] = df['Family'] + "(" + df['Formula'] + ")"
     method_formula_pairs = np.unique(df['Family (Formula)'])
     fw = open("../results/cvnew_ind.csv","w+")
-    fw.write("With_Project;Family (Formula);t_test;cohens_d\n")
+    fw.write("With_Project;Family (Formula);t_test_statistic;t_test_p_value;cohens_d\n")
     for project in projects:
         df_proj = df[df['Project'] == project]
         df_proj_real = df_proj[df_proj['isReal'] == 1]
@@ -40,8 +42,10 @@ def run_cv_ind():
             samples_real = list(df_proj_real_type['ScoreWRTLoadedClasses'])
             samples_artificial = list(df_proj_artificial_type['ScoreWRTLoadedClasses'])
             t_test = statistics_module.statistical_significance_ttest(samples_real,samples_artificial)
+            t_test_statistic = t_test[0]
+            t_test_p_value = t_test[1]
             cohens_d = statistics_module.effect_size_cohensD(samples_real,samples_artificial)
-            fw.write(project+";"+method_formula_pair+";"+str(t_test)+";"+str(cohens_d)+"\n")
+            fw.write(project + ";" + method_formula_pair + ";" + str(t_test_statistic) + ";" + str(t_test_p_value) + ";" + str(cohens_d) + "\n")
     fw.close()
 
 if __name__ == '__main__':
