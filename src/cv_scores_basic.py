@@ -39,4 +39,4 @@ for fs in projectSet:
 	
 	# mean scores for each project
 	cvMeanScore = df.groupby(['Fold', 'isReal', 'Formula'])['ScoreWRTLoadedClasses'].describe()
-	cvMeanScore.to_csv('results/cv_result'+fs+'.csv', sep=',', header=True, index=True)
+	cvMeanScore.to_csv('../results/cv_result'+fs+'.csv', sep=',', header=True, index=True)
