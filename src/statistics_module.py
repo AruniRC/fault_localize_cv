@@ -2,7 +2,7 @@ from scipy import stats
 from numpy import std, mean, sqrt
 
 def statistical_significance_ttest(samples1, samples2):
-    return stats.ttest_ind(samples1, samples2)
+    return stats.ttest_ind(samples1, samples2, equal_var =False)
 
 def effect_size_cohensD(samples1, samples2):
     n_samples1 = len(samples1)
