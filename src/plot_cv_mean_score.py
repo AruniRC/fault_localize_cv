@@ -15,16 +15,27 @@ def scatter_plot_mean_score():
     ax.set(xlabel="Family (Formula)", ylabel="Mean EXAM Score")
     plt.savefig("../visualizations/mean_scores.pdf")
 
-def bar_plot_count():
+def bar_plot_count_real():
     plt.clf()
     data = pd.read_csv("../results/cv_mean_score.csv",sep=";")
-    sns.set_style("white")
-    sns.barplot(x="Without_Project", y="CountReal", data=data)
-    plt.savefig("../visualizations/cv_counts.pdf")
-    sns.pairplot(iris, hue="species")
+    ax = sns.set_style("white")
+    ax = sns.barplot(x="Without_Project", y="CountReal", data=data)
+    ax.set(xlabel="Fold(Without_project)", ylabel="Count_Real")
+    plt.savefig("../visualizations/cv_counts_real.pdf")
+    
+
+def bar_plot_count_artificial():
+    plt.clf()
+    data = pd.read_csv("../results/cv_mean_score.csv",sep=";")
+    ax = sns.set_style("white")
+    ax = sns.barplot(x="Without_Project", y="CountArt", data=data)
+    ax.set(xlabel="Fold(Without_project)", ylabel="Count_Artificial")
+    plt.savefig("../visualizations/cv_counts_artificial.pdf")
+    
 
 if __name__ == '__main__':
     scatter_plot_mean_score()
-    bar_plot_count()
+    bar_plot_count_real()
+    bar_plot_count_artificial()
 
     
