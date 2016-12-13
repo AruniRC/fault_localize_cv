@@ -24,6 +24,6 @@ if __name__ == '__main__':
     sns.heatmap(data)
     plt.xticks([t+0.5 for t in range(len(axes.get_xticklabels()))],[val.get_text().replace("Difference-","") for val in axes.get_xticklabels()])
     plt.ylabel("Project",fontsize=14)
-    plt.xlabel("Difference between the exam scores for real and artificial bugs", fontsize=14)
+    plt.xlabel("Difference between the mean exam scores for real and artificial bugs", fontsize=14)
     plt.tight_layout()
     plt.savefig("../visualizations/difference_real_artificial.pdf")
