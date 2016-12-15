@@ -29,9 +29,9 @@ def plotter_kde(df):
         df_Sel = df[df['Project']==project]
         df_Sel_real = df_Sel[df_Sel["Bug Type"]=="Real"]
         df_Sel_artificial = df_Sel[df_Sel["Bug Type"] == "Artificial"]
-        plt.hist([df_Sel_real['Exam_Score'],df_Sel_artificial['Exam_Score']],stacked=True)
-        #plt.show()
+        plt.hist([df_Sel_real['Exam_Score'],df_Sel_artificial['Exam_Score']],stacked=True, label=['Real','Artificial'])
         plt.xlim([0,1])
+        plt.legend()
         plt.savefig("../visualizations/real_artificial_histogram_"+project+".pdf")
         plt.clf()
 
