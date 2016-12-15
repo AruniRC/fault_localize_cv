@@ -50,6 +50,6 @@ ax.text(0.6+len(np.unique(data[x_col]))/2, (np.max(data[y_col]) - np.min(data[y_
         horizontalalignment='left',
         verticalalignment='top',
         fontsize=12)
-
+#plt.ylim([0,1])
 #plt.show()
 plt.savefig("../visualizations/boxplot_real_artificial.pdf")
