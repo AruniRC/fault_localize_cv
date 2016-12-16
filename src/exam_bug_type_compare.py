@@ -27,6 +27,7 @@ def get_Data():
 def plotter_kde(df):
     for project in np.unique(df["Project"]):
         df_Sel = df[df['Project']==project]
+        df_Sel = df_Sel[df_Sel['Family (Formula)']=='mbfl (muse)']
         df_Sel_real = df_Sel[df_Sel["Bug Type"]=="Real"]
         df_Sel_artificial = df_Sel[df_Sel["Bug Type"] == "Artificial"]
         plt.hist([df_Sel_real['Exam_Score'],df_Sel_artificial['Exam_Score']],stacked=True, label=['Real','Artificial'])
