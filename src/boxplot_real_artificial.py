@@ -25,8 +25,8 @@ data = data[[x_col,y_col,hue_col]]
 data.to_csv("../results/scores_artificial_vs_real.csv", index=None)
 
 #Plot
-ax = sns.violinplot(x=x_col, y=y_col, data=data, hue=hue_col, whis=np.inf, palette=palette_col, hue_order=hue_order_col )
-ax = sns.stripplot(x=x_col, y=y_col, data=data,jitter=True, hue=hue_col,palette=palette_col, split=True, hue_order=hue_order_col )
+ax = sns.violinplot(x=x_col, y=y_col, data=data, hue=hue_col, whis=np.inf, palette=palette_col, hue_order=hue_order_col, cut=0.)
+ax = sns.stripplot(x=x_col, y=y_col, data=data,jitter=True, hue=hue_col,palette=palette_col, split=True, hue_order=hue_order_col)
 ax.legend().set_visible(False)
 ax.add_patch( patches.Rectangle(
         (0, (np.max(data[y_col]) - np.min(data[y_col]))*1.15),   # (x,y)
